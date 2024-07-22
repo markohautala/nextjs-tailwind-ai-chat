@@ -1,13 +1,26 @@
-import Image from "next/image";
-import ChatComponent from "@/components/ChatComponent";
+'use client';
 
-export default function Home() {
+import { useChat } from 'ai/react';
+
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="bg-slate-800 p-3 w-[600px] rounded-md text-white">
-        <h2 className="text-2xl">GPT-4 APP</h2>
-        <ChatComponent />
-      </div>
-    </main>
+    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+      {messages.map(m => (
+        <div key={m.id} className="whitespace-pre-wrap">
+          {m.role === 'user' ? 'User: ' : 'AI: '}
+          {m.content}
+        </div>
+      ))}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl text-black"
+          value={input}
+          placeholder="Say something..."
+          onChange={handleInputChange}
+        />
+      </form>
+    </div>
   );
 }
