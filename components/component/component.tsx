@@ -3,6 +3,29 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from 'ai/react';
 import { useCallback } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'; // You can choose other themes as well
+
+// Utility function to detect if the content contains code blocks
+const containsCodeBlock = (content) => {
+  return content.includes("```");
+};
+
+// Utility function to format code blocks with syntax highlighting
+const formatCodeBlock = (content) => {
+  const codeBlockRegex = /```([\s\S]*?)```/g;
+  const parts = content.split(codeBlockRegex);
+  return parts.map((part, index) => {
+    if (index % 2 === 1) {
+      return (
+        <SyntaxHighlighter key={index} language="javascript" style={tomorrow}>
+          {part.trim()}
+        </SyntaxHighlighter>
+      );
+    }
+    return <p key={index}>{part}</p>;
+  });
+};
 
 function SendIcon(props) {
   return (
@@ -80,7 +103,7 @@ export function Component() {
                     <AvatarFallback>AI</AvatarFallback>
                   </Avatar>
                   <div className="bg-primary text-primary-foreground p-4 rounded-lg max-w-[80%]">
-                    <p>{m.content}</p>
+                    {containsCodeBlock(m.content) ? formatCodeBlock(m.content) : <p>{m.content}</p>}
                   </div>
                 </>
               )}
@@ -95,7 +118,7 @@ export function Component() {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
-            className="w-full rounded-lg pr-16 resize-none text-lg" // Increased text size
+            className="w-full rounded-lg pr-16 resize-none text-lg"
             rows={1}
           />
           <Button type="submit" variant="ghost" size="icon" className="absolute top-1/2 right-4 -translate-y-1/2">
