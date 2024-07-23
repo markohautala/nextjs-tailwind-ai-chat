@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   // Add the system message to ensure simplicity and conciseness
   const systemMessage = {
     role: 'system',
-    content: 'Always explain things really simply, like to a 15-year-old or a beginner, in no more than 500 characters. If code is requested, provide the code.'
+    content: `Always explain things really simply, like to a 15-year-old or a beginner, in no more than 500 characters. If code is requested, provide the code in code-format. If asked to explain, divide the code into sections and explain interchangeably with explanations suitable for total beginners, in a manner that combines code-bits and explanations on new lines.`,
   };
 
   // Include the system message in the messages array

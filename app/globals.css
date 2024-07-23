@@ -40,3 +40,18 @@
     @apply font-heading;
   }
 }
+
+/* Import Roboto font in your global stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+/* CSS for inline code with gradient color */
+.inline-code {
+  background: linear-gradient(135deg, #1c2951, #3d5ab1); /* Diagonal gradient background */
+  color: #fff; /* White text color for contrast */
+  border-radius: 4px; /* Rounded corners */
+  padding: 2px 4px; /* Padding for better readability */
+  font-family: 'Roboto', sans-serif; /* Roboto font for inline code */
+  font-size: 0.9em; /* Slightly smaller font size */
+  display: inline; /* Inline display */
+}
+

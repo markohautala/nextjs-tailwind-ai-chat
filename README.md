@@ -1,3 +1,12 @@
+# NEXT-JS OPEN-AI APPLICATION
+
+Next.js application built with AI-SDK + chat-gpt 40-mini model. UI initially created with Tailwind.css + Vercel's v0 and imported as npm. After that it was modified and adjusted.
+
+To give the chat capabilities to display real code, React-syntax-highlighter with prism was imported and added to the component.
+
+Deployed to vercel.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
