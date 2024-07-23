@@ -65,7 +65,7 @@ export function Component() {
             <div key={m.id} className={`flex items-start gap-4 ${m.role === 'user' ? 'justify-end' : ''}`}>
               {m.role === 'user' ? (
                 <>
-                  <div className="bg-card p-4 rounded-lg max-w-[80%]">
+                  <div className="bg-gray-200 p-4 rounded-lg max-w-[80%]">
                     <p>{m.content}</p>
                   </div>
                   <Avatar className="w-10 h-10">
@@ -95,7 +95,7 @@ export function Component() {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Type your message..."
-            className="w-full rounded-lg pr-16 resize-none"
+            className="w-full rounded-lg pr-16 resize-none text-lg" // Increased text size
             rows={1}
           />
           <Button type="submit" variant="ghost" size="icon" className="absolute top-1/2 right-4 -translate-y-1/2">
