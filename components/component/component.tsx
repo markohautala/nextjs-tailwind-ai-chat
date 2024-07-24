@@ -124,16 +124,24 @@ export function Component() {
         {" "}
         {/* Header with styling */}
         <h1 className="text-2xl font-bold">
-          AI Chat & {" "}
-          <span
-            style={{
-              background: "linear-gradient(90deg, #7F7FD5, #A0C0FF)",
-              WebkitBackgroundClip: "text",
-              color: "transparent",
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.reload();
             }}
           >
-            &lt;code-helper/&gt;
-          </span>
+            AI Chat &{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #7F7FD5, #A0C0FF)",
+                WebkitBackgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              &lt;code-helper/&gt;
+            </span>
+          </a>
         </h1>
         {/* Title */}
       </header>
