@@ -7,22 +7,19 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"; // Import
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism"; // Import syntax highlighter theme
 
 // Utility function to detect if the content contains code blocks or inline code
-const containsCodeBlock = (content) => {
+const containsCodeBlock = (content: string): boolean => {
   return content.includes("```") || content.includes("`");
 };
 
 // Utility function to format code blocks with syntax highlighting
-const formatCodeBlock = (content) => {
+const formatCodeBlock = (content: string) => {
   // Regex to match code blocks in the content
   const codeBlockRegex = /```([\s\S]*?)```/g;
   // Regex to match inline code
   const inlineCodeRegex = /`([^`]+)`/g;
 
   // First, format code blocks
-  let parts = content.split(codeBlockRegex);
-
-  // Apply inline code highlighting
-  parts = parts.map((part, index) => {
+  const parts: (string | JSX.Element)[] = content.split(codeBlockRegex).map((part: string, index: number) => {
     // For code blocks, apply syntax highlighting
     if (index % 2 === 1) {
       return (
@@ -31,28 +28,33 @@ const formatCodeBlock = (content) => {
         </SyntaxHighlighter>
       );
     }
-    // For regular text, apply inline code highlighting
-    const inlineParts = part.split(inlineCodeRegex);
-    return (
-      <p key={index}>
-        {inlineParts.map((inlinePart, inlineIndex) =>
-          inlineIndex % 2 === 1 ? (
-            <code key={inlineIndex} className="inline-code">
-              {inlinePart}
-            </code>
-          ) : (
-            inlinePart
-          )
-        )}
-      </p>
-    );
+    return part;
   });
 
-  return parts;
+  // Apply inline code highlighting
+  return parts.map((part: string | JSX.Element, index: number) => {
+    if (typeof part === "string") {
+      const inlineParts = part.split(inlineCodeRegex);
+      return (
+        <p key={index}>
+          {inlineParts.map((inlinePart: string, inlineIndex: number) =>
+            inlineIndex % 2 === 1 ? (
+              <code key={inlineIndex} className="inline-code">
+                {inlinePart}
+              </code>
+            ) : (
+              inlinePart
+            )
+          )}
+        </p>
+      );
+    }
+    return part;
+  });
 };
 
 // Component for the send icon
-function SendIcon(props) {
+function SendIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -73,7 +75,7 @@ function SendIcon(props) {
 }
 
 // Component for the close (X) icon
-function XIcon(props) {
+function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -96,11 +98,11 @@ function XIcon(props) {
 // Main component for the chat interface
 export function Component() {
   const { messages, input, handleInputChange, handleSubmit } = useChat(); // Destructure chat functions and state from custom hook
-  const chatEndRef = useRef(null); // Ref to scroll to the end of the chat
+  const chatEndRef = useRef<HTMLDivElement | null>(null); // Ref to scroll to the end of the chat
 
   // Handle Enter key press to submit the message
   const handleKeyDown = useCallback(
-    (event) => {
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault(); // Prevent default behavior (new line)
         handleSubmit(event); // Call the submit function
