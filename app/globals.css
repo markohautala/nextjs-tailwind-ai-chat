@@ -46,12 +46,11 @@
 
 /* CSS for inline code with gradient color */
 .inline-code {
-  background: linear-gradient(135deg, #1c2951, #3d5ab1); /* Diagonal gradient background */
+  background: linear-gradient(135deg, #2a374a, #4a607a); /* Diagonal gradient background */
   color: #fff; /* White text color for contrast */
   border-radius: 4px; /* Rounded corners */
-  padding: 2px 4px; /* Padding for better readability */
+  padding: 3px 4px; /* Padding for better readability */
   font-family: 'Roboto', sans-serif; /* Roboto font for inline code */
   font-size: 0.9em; /* Slightly smaller font size */
   display: inline; /* Inline display */
 }
-

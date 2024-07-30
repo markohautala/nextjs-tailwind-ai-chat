@@ -17,6 +17,8 @@ const formatCodeBlock = (content: string) => {
   const codeBlockRegex = /```([\s\S]*?)```/g;
   // Regex to match inline code
   const inlineCodeRegex = /`([^`]+)`/g;
+  // Regex to match bold text
+  const boldTextRegex = /\*\*([^*]+)\*\*/g;
 
   // First, format code blocks
   const parts: (string | JSX.Element)[] = content.split(codeBlockRegex).map((part: string, index: number) => {
@@ -31,21 +33,40 @@ const formatCodeBlock = (content: string) => {
     return part;
   });
 
-  // Apply inline code highlighting
+  // Apply inline code and bold text highlighting
   return parts.map((part: string | JSX.Element, index: number) => {
     if (typeof part === "string") {
+      // Split the part into inline code parts
       const inlineParts = part.split(inlineCodeRegex);
+
+      // Apply bold text formatting within each inline part
       return (
         <p key={index}>
-          {inlineParts.map((inlinePart: string, inlineIndex: number) =>
-            inlineIndex % 2 === 1 ? (
-              <code key={inlineIndex} className="inline-code">
-                {inlinePart}
-              </code>
-            ) : (
-              inlinePart
-            )
-          )}
+          {inlineParts.map((inlinePart: string, inlineIndex: number) => {
+            if (inlineIndex % 2 === 1) {
+              return (
+                <code key={inlineIndex} className="inline-code">
+                  {inlinePart}
+                </code>
+              );
+            } else {
+              // Split the inline part into bold text parts
+              const boldParts = inlinePart.split(boldTextRegex);
+              return (
+                <>
+                  {boldParts.map((boldPart: string, boldIndex: number) =>
+                    boldIndex % 2 === 1 ? (
+                      <h3 key={boldIndex} className="font-bold">
+                        {boldPart}
+                      </h3>
+                    ) : (
+                      boldPart
+                    )
+                  )}
+                </>
+              );
+            }
+          })}
         </p>
       );
     }
@@ -70,27 +91,6 @@ function SendIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="m22 2-7 20-4-9-9-4Z" /> {/* Path for the send icon */}
       <path d="M22 2 11 13" /> {/* Path for the send icon */}
-    </svg>
-  );
-}
-
-// Component for the close (X) icon
-function XIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" /> {/* Path for the X icon */}
-      <path d="m6 6 12 12" /> {/* Path for the X icon */}
     </svg>
   );
 }
@@ -182,7 +182,9 @@ export function Component() {
                     {containsCodeBlock(m.content) ? (
                       formatCodeBlock(m.content)
                     ) : (
-                      <p>{m.content}</p>
+                      <div>
+                        {formatCodeBlock(m.content)}
+                      </div>
                     )}
                   </div>
                 </>
